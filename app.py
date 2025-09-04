@@ -62,6 +62,7 @@ if st.session_state["authenticated"]:
         
         # Read the CSV file with 'latin-1' encoding and skip bad lines.
         df = pd.read_csv(file_path, encoding='latin-1', on_bad_lines='skip')
+
     except Exception as e:
         st.error(f"An unexpected error occurred: {e}")
         st.stop()
@@ -104,19 +105,19 @@ if st.session_state["authenticated"]:
 
 
     if selected_car != 'All':
-        model_list = ['All'] + sorted(df[df['CAR'] == selected_car]['MODEL'].dropna().unique())
+        model_list = ['All'] + sorted(df[df['CAR'] == selected_car]['MODEL.1'].dropna().unique())
     else:
-        model_list = ['All'] + sorted(df['MODEL'].dropna().unique())
+        model_list = ['All'] + sorted(df['MODEL.1'].dropna().unique())
 
     selected_model = col2.selectbox("Select Model (MODEL)", model_list)
 
-    all_years = sorted(list(set(df['ANO DE I.'].dropna().unique()) | set(df['ANO FI.'].dropna().unique())))
+    all_years = sorted([int(y) for y in set(df['ANO DE I.'].dropna().unique()) | set(df['ANO FI.'].dropna().unique())])
     selected_year = col3.selectbox("Select Year", ['All'] + all_years)
 
     if selected_car != 'All':
         filtered_df = filtered_df[filtered_df['CAR'] == selected_car]
     if selected_model != 'All':
-        filtered_df = filtered_df[filtered_df['MODEL'] == selected_model]
+        filtered_df = filtered_df[filtered_df['MODEL.1'] == selected_model]
     if selected_year != 'All':
         filtered_df = filtered_df[
             (filtered_df['ANO DE I.'] <= selected_year) & 
