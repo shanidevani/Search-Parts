@@ -12,17 +12,11 @@ st.markdown("---")
 
 # --- Data Loading ---
 try:
-    # Replace this with the actual path to your CSV file
-    file_path = "https://github.com/shanidevani/Search-Parts/blob/main/M%20APPLICATIONS(FRAM%20ENG).csv"
+    # Use the raw GitHub URL for the CSV file.
+    file_path = "https://raw.githubusercontent.com/shanidevani/Search-Parts/main/M%20APPLICATIONS(FRAM%20ENG).csv"
     
-    # Read the CSV file with 'latin-1' encoding to handle special characters
-    df = pd.read_csv(file_path, encoding='latin-1')
-except FileNotFoundError:
-    st.error(f"Error: The file at '{file_path}' was not found. Please check the file path.")
-    st.stop()
-except UnicodeDecodeError:
-    st.error("There was an error decoding your file. Please ensure it is saved in a compatible format (e.g., 'latin-1' or 'utf-8').")
-    st.stop()
+    # Read the CSV file with 'latin-1' encoding and skip bad lines.
+    df = pd.read_csv(file_path, encoding='latin-1', on_bad_lines='skip')
 except Exception as e:
     st.error(f"An unexpected error occurred: {e}")
     st.stop()
@@ -31,7 +25,6 @@ except Exception as e:
 filtered_df = df.copy()
 
 # Filter Group 1: Category & Position
-# st.subheader("1. Category and Position")
 with st.expander("Category and Position"):
     category = st.selectbox("Select Category (CAT)", ['All'] + sorted(df['CAT'].dropna().unique()))
     tab1, tab2, tab3, tab4 = st.columns(4)
@@ -59,7 +52,6 @@ if front_rear or left_right or upper_lower or in_out:
     filtered_df = filtered_df[position_mask]
 
 # Filter Group 2: Car, Model, and Year
-# st.subheader("2. Car and Model")
 with st.expander("Car and Model"):
     col1, col2, col3 = st.columns(3)
     car_list = ['All'] + sorted(df['CAR'].dropna().unique())
@@ -87,8 +79,6 @@ if selected_year != 'All':
     ]
 
 # Filter Group 3: Frame or Engine No.
-# st.subheader("3. Frame/Engine Search")
-
 with st.expander("Frame/Engine Search"):
     frame_engine_search = st.text_input("Enter Frame No. or Engine No.")
 if frame_engine_search:
@@ -99,7 +89,6 @@ if frame_engine_search:
     ]
 
 # Filter Group 4: Part No.
-# st.subheader("4. Part No. Search")
 with st.expander("Part No. Search"):
     part_no_search = st.text_input("Search Part No.")
 if part_no_search:
@@ -114,4 +103,3 @@ if not filtered_df.empty:
     st.dataframe(filtered_df[['PART NO.']].reset_index(drop=True), hide_index=True)
 else:
     st.warning("No part numbers found with the selected filters.")
-
