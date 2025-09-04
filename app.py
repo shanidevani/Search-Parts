@@ -8,15 +8,16 @@ st.set_page_config(layout="wide")
 
 # --- Login Credentials ---
 LOGIN_CREDENTIALS = {
-    "user1": "pass1",
-    "user2": "pass2",
-    "user3": "pass3",
-    "user4": "pass4",
-    "user5": "pass5",
-    "user6": "pass6",
-    "user7": "pass7",
-    "user8": "pass8",
-    "user9": "pass9",
+    "ARMMACHAWASASADMIN": "Smart@111786",
+    "MATOLASASADMIN": "Smart@111786",
+    "MATOLARIOSASADMIN": "Smart@111786",
+    "MAPUTOSASADMIN": "Smart@111786",
+    "CHOUPALSASADMIN": "Smart@111786",
+    "MACHAWASASADMIN": "Smart@111786",
+    "ARMBEIRASASADMIN": "Smart@111786",
+    "BEIRASASADMIN": "Smart@111786",
+    "NAMPULASASADMIN": "Smart@111786",
+    "CHEMOIOSASADMIN": "Smart@111786",
 }
 
 # --- Login Page Logic ---
@@ -69,13 +70,13 @@ if st.session_state["authenticated"]:
     filtered_df = df.copy()
 
     # Filter Group 1: Category & Position
-    with st.expander("Category and Position"):
-        category = st.selectbox("Select Category (CAT)", ['All'] + sorted(df['CAT'].dropna().unique()))
-        tab1, tab2, tab3, tab4 = st.columns(4)
-        front_rear = tab1.checkbox("F/R (Front/Rear)")
-        left_right = tab2.checkbox("L/R (Left/Right)")
-        upper_lower = tab3.checkbox("U/L (Upper/Lower)")
-        in_out = tab4.checkbox("I/O (In/Out)")
+    # with st.expander("Category and Position"):
+    tab5, tab1, tab2, tab3, tab4 = st.columns(5)
+    category = tab5.selectbox("Select Category (CAT)", ['All'] + sorted(df['CAT'].dropna().unique()))
+    front_rear = tab1.checkbox("F/R (Front/Rear)")
+    left_right = tab2.checkbox("L/R (Left/Right)")
+    upper_lower = tab3.checkbox("U/L (Upper/Lower)")
+    in_out = tab4.checkbox("I/O (In/Out)")
 
     if category != 'All':
         filtered_df = filtered_df[filtered_df['CAT'] == category]
@@ -96,21 +97,21 @@ if st.session_state["authenticated"]:
         filtered_df = filtered_df[position_mask]
 
     # Filter Group 2: Car, Model, and Year
-    with st.expander("Car and Model"):
-        col1, col2, col3 = st.columns(3)
-        car_list = ['All'] + sorted(df['CAR'].dropna().unique())
-        selected_car = col1.selectbox("Select Car (CAR)", car_list)
+    # with st.expander("Car and Model"):
+    col1, col2, col3 = st.columns(3)
+    car_list = ['All'] + sorted(df['CAR'].dropna().unique())
+    selected_car = col1.selectbox("Select Car (CAR)", car_list)
 
 
-        if selected_car != 'All':
-            model_list = ['All'] + sorted(df[df['CAR'] == selected_car]['MODEL'].dropna().unique())
-        else:
-            model_list = ['All'] + sorted(df['MODEL'].dropna().unique())
+    if selected_car != 'All':
+        model_list = ['All'] + sorted(df[df['CAR'] == selected_car]['MODEL'].dropna().unique())
+    else:
+        model_list = ['All'] + sorted(df['MODEL'].dropna().unique())
 
-        selected_model = col2.selectbox("Select Model (MODEL)", model_list)
+    selected_model = col2.selectbox("Select Model (MODEL)", model_list)
 
-        all_years = sorted(list(set(df['ANO DE I.'].dropna().unique()) | set(df['ANO FI.'].dropna().unique())))
-        selected_year = col3.selectbox("Select Year", ['All'] + all_years)
+    all_years = sorted(list(set(df['ANO DE I.'].dropna().unique()) | set(df['ANO FI.'].dropna().unique())))
+    selected_year = col3.selectbox("Select Year", ['All'] + all_years)
 
     if selected_car != 'All':
         filtered_df = filtered_df[filtered_df['CAR'] == selected_car]
