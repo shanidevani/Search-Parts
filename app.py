@@ -99,7 +99,7 @@ if st.session_state["authenticated"]:
 
     # Filter Group 2: Car, Model, and Year
     # with st.expander("Car and Model"):
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4, col5 = st.columns(5)
     car_list = ['All'] + sorted(df['CAR'].dropna().unique())
     selected_car = col1.selectbox("Select Car (CAR)", car_list)
 
@@ -125,8 +125,8 @@ if st.session_state["authenticated"]:
         ]
 
     # Filter Group 3: Frame or Engine No.
-    with st.expander("Frame/Engine Search"):
-        frame_engine_search = st.text_input("Enter Frame No. or Engine No.")
+    # with st.expander("Frame/Engine Search"):
+    frame_engine_search = col4.text_input("Enter Frame No. or Engine No.")
     if frame_engine_search:
         search_text = frame_engine_search.lower().strip()
         filtered_df = filtered_df[
@@ -135,8 +135,8 @@ if st.session_state["authenticated"]:
         ]
 
     # Filter Group 4: Part No.
-    with st.expander("Part No. Search"):
-        part_no_search = st.text_input("Search Part No.")
+    # with st.expander("Part No. Search"):
+    part_no_search = col5.text_input("Search Part No.")
     if part_no_search:
         search_text = part_no_search.lower().strip()
         filtered_df = filtered_df[
