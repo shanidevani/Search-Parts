@@ -13,7 +13,7 @@ st.markdown("---")
 # --- Data Loading ---
 try:
     # Replace this with the actual path to your CSV file
-    file_path = r"D:\Master Data\master data\M APPLICATIONS(FRAM ENG).csv" 
+    file_path = "https://github.com/shanidevani/Search-Parts/blob/main/M%20APPLICATIONS(FRAM%20ENG).csv"
     
     # Read the CSV file with 'latin-1' encoding to handle special characters
     df = pd.read_csv(file_path, encoding='latin-1')
@@ -114,3 +114,4 @@ if not filtered_df.empty:
     st.dataframe(filtered_df[['PART NO.']].reset_index(drop=True), hide_index=True)
 else:
     st.warning("No part numbers found with the selected filters.")
+
